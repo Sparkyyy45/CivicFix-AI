@@ -132,7 +132,7 @@ export default function MapPicker({ onLocationSelect }: MapPickerProps) {
     return (
         <div className="relative h-[400px] w-full rounded-lg overflow-hidden group">
             {/* Search Overlay */}
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] flex flex-col gap-2 w-full max-w-sm px-4">
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[5000] flex flex-col gap-2 w-full max-w-sm px-4">
                 <form onSubmit={handleSearch} className="relative shadow-lg rounded-full">
                     <input
                         type="text"
@@ -170,7 +170,7 @@ export default function MapPicker({ onLocationSelect }: MapPickerProps) {
                 type="button"
                 onClick={handleUseMyLocation}
                 disabled={isLocating}
-                className="absolute top-4 right-4 z-[1000] p-2.5 bg-white/95 backdrop-blur-sm border border-slate-200 shadow-lg rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-600 hover:text-blue-600 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                className="absolute top-4 right-4 z-[5000] p-2.5 bg-white/95 backdrop-blur-sm border border-slate-200 shadow-lg rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-600 hover:text-blue-600 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                 title="Use my location"
             >
                 {isLocating ? (
