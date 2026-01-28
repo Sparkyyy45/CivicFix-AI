@@ -1,13 +1,22 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Loader2, Crosshair } from 'lucide-react';
+import { Search, Loader2, Crosshair } from 'lucide-react';
 
 // Default center (Generic city center - e.g., New Delhi or similar)
 const DEFAULT_CENTER: [number, number] = [24.5854, 73.7125];
 
 interface MapPickerProps {
     onLocationSelect: (lat: number, lng: number) => void;
+}
+
+interface SearchResult {
+    place_id: number;
+    lat: string;
+    lon: string;
+    display_name: string;
 }
 
 function MapUpdater({ center }: { center: [number, number] | null }) {
@@ -40,6 +49,9 @@ function LocationMarker({ onLocationSelect, position, setPosition }: {
 
 export default function MapPicker({ onLocationSelect }: MapPickerProps) {
     const [mounted, setMounted] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
     const [isLocating, setIsLocating] = useState(false);
     const [markerPosition, setMarkerPosition] = useState<any>(null);
     const [mapCenter, setMapCenter] = useState<[number, number] | null>(null);
@@ -58,6 +70,34 @@ export default function MapPicker({ onLocationSelect }: MapPickerProps) {
         setMounted(true);
     }, []);
 
+    const handleSearch = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!searchQuery.trim()) return;
+
+        setIsSearching(true);
+        try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&countrycodes=in`);
+            const data = await response.json();
+            setSearchResults(data);
+        } catch (error) {
+            console.error('Search failed:', error);
+        } finally {
+            setIsSearching(false);
+        }
+    };
+
+    const selectLocation = (result: SearchResult) => {
+        const lat = parseFloat(result.lat);
+        const lng = parseFloat(result.lon);
+        const newPos = { lat, lng };
+
+        setMarkerPosition(newPos);
+        setMapCenter([lat, lng]);
+        onLocationSelect(lat, lng);
+        setSearchResults([]);
+        setSearchQuery(result.display_name.split(',')[0]); // Keep it short
+    };
+
     const handleUseMyLocation = () => {
         if (!navigator.geolocation) {
             alert("Geolocation is not supported by your browser");
@@ -73,6 +113,7 @@ export default function MapPicker({ onLocationSelect }: MapPickerProps) {
                 setMarkerPosition(newPos);
                 setMapCenter([latitude, longitude]);
                 onLocationSelect(latitude, longitude);
+                setSearchQuery('');
                 setIsLocating(false);
             },
             (error) => {
@@ -90,6 +131,40 @@ export default function MapPicker({ onLocationSelect }: MapPickerProps) {
 
     return (
         <div className="relative h-[400px] w-full rounded-lg overflow-hidden group">
+            {/* Search Overlay */}
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] flex flex-col gap-2 w-full max-w-sm px-4">
+                <form onSubmit={handleSearch} className="relative shadow-lg rounded-full">
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search location (India)..."
+                        className="w-full pl-10 pr-4 py-2.5 bg-white/95 backdrop-blur-sm border border-slate-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition-all hover:shadow-md"
+                    />
+                    <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                    {isSearching && (
+                        <div className="absolute right-3 top-2.5">
+                            <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
+                        </div>
+                    )}
+                </form>
+
+                {searchResults.length > 0 && (
+                    <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-200 max-h-60 overflow-y-auto mt-1 custom-scrollbar">
+                        {searchResults.map((result) => (
+                            <button
+                                key={result.place_id}
+                                onClick={() => selectLocation(result)}
+                                className="w-full text-left px-4 py-2.5 text-sm hover:bg-blue-50 border-b border-slate-100 last:border-0 truncate transition-colors flex items-center gap-2 group"
+                            >
+                                <div className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-500 transition-colors"></div>
+                                {result.display_name}
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
+
             {/* Geolocation Button */}
             <button
                 type="button"
