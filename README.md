@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🗳️ CivicFix AI - Civic Issue Resolver
 
-## Getting Started
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/Sparkyyy45/CivicFix-AI)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-First, run the development server:
+**CivicFix AI** is a modern, AI-powered platform designed to empower citizens to report, track, and resolve civic issues in their community. By leveraging geolocation, AI image analysis, and a transparent dashboard, we bridge the gap between citizens and local authorities.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+![Dashboard Preview](public/dashboard-preview.png) <!-- Replace with actual screenshot if available -->
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-   **📸 AI-Powered Reporting**: simply upload a photo of the issue (pothole, garbage, street light). Our AI automatically categorizes the issue, identifies the responsible department, and assigns an urgency level.
+-   **📍 Smart Geolocation**: 
+    -   **"Locate Me"**: Instantly find your exact GPS coordinates.
+    -   **Location Search**: Search for any landmark or address in India.
+    -   **Interactive Map**: Pinpoint the exact location on a map.
+-   **🛡️ Safety Risk Assessment**: Real-time analysis of the reported issue's safety impact on the immediate surroundings.
+-   **📊 Citizen Dashboard**: Track the status of your reported issues (Pending, In Progress, Resolved).
+-   **🚫 Duplicate Detection**: Smartly warns users if a similar issue has already been reported nearby to prevent redundancy.
+-   **👍 Community Upvoting**: Upvote existing issues to show community support and increase priority.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+This project is built with a cutting-edge tech stack for performance, scalability, and developer experience.
 
-To learn more about Next.js, take a look at the following resources:
+-   **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+-   **Language**: [TypeScript](https://www.typescriptlang.org/)
+-   **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+-   **Maps**: [Leaflet](https://leafletjs.com/) & [React-Leaflet](https://react-leaflet.js.org/)
+-   **Geocoding**: [OpenStreetMap Nominatim API](https://nominatim.org/)
+-   **Backend / Database**: [Firebase](https://firebase.google.com/) (Firestore & Auth)
+-   **Animations**: [Framer Motion](https://www.framer.com/motion/)
+-   **Icons**: [Lucide React](https://lucide.dev/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Follow these steps to set up the project locally.
 
-## Deploy on Vercel
+### Prerequisites
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-   Node.js 18+ installed
+-   npm or yarn installed
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Installation
+
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/Sparkyyy45/CivicFix-AI.git
+    cd CivicFix-AI
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+
+3.  **Environment Setup**
+    Create a `.env.local` file in the root directory and add your Firebase and Cloudinary credentials:
+
+    ```env
+    NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+    NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+    NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
+    NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
+    ```
+
+4.  **Run the development server**
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1.  Fork the project
+2.  Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+Made with ❤️ for a better community.
